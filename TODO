@@ -1,0 +1,5 @@
+# add pi05 support
+1. build the pi05 using torch api
+2. check accuary with lerobot pi05
+3. implement high performance with cutedsl
+4. compare performance with real-time vla
