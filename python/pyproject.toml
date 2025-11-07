@@ -1,0 +1,33 @@
+[build-system]
+requires = [
+    "setuptools>=61.0",
+    "wheel",
+    "torch>=2.9",
+]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "fastvla"
+version = "0.0.1"
+description = "A high-performance inference framework for Vision Large Action models."
+readme = "README.md"
+license = "Apache-2.0"
+authors = [
+    { name = "Rhys-Q", email = "1826249828@qq.com" }
+]
+requires-python = ">=3.10"
+
+dependencies = [
+    "torch>=2.9",
+]
+
+[project.urls]
+Homepage = "https://github.com/Rhys-Q/fastvla"
+Source = "https://github.com/Rhys-Q/fastvla"
+Issues = "https://github.com/Rhys-Q/fastvla/issues"
+
+
+[tool.pytest.ini_options]
+testpaths = [
+    "tests",
+]
