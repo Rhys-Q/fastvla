@@ -24,6 +24,7 @@ dependencies = [
     "draccus",
     "einops",
     "datasets",
+    "pytest",
 ]
 
 [project.urls]
