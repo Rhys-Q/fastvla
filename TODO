@@ -1,5 +1,8 @@
 # add pi05 support
 1. build the pi05 using torch api [DONE]
 2. check accuary with lerobot pi05
-3. implement high performance with cutedsl
-4. compare performance with real-time vla
+3. transfer transformer modify code in pi05
+4. clean code, remove useless code
+5. check accuary with lerobot pi05
+6. implement high performance with cutedsl
+7. compare performance with real-time vla
