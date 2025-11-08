@@ -859,9 +859,16 @@ class PI05Policy(PreTrainedPolicy):
         local_files_only: bool = False,
         revision: str | None = None,
         strict: bool = True,
+        load_weights: bool = True,
         **kwargs,
     ) -> T:
-        """Override the from_pretrained method to handle key remapping and display important disclaimer."""
+        """Load a pretrained PI05 policy.
+
+        Added parameter:
+            load_weights (bool): If False, only the config is loaded and the model
+                parameters are randomly initialized (no large weight download).
+                Useful for device / memory / initialization tests. Defaults to True.
+        """
         print(
             "The PI05 model is a direct port of the OpenPI implementation. \n"
             "This implementation follows the original OpenPI structure for compatibility. \n"
@@ -884,9 +891,15 @@ class PI05Policy(PreTrainedPolicy):
                 **kwargs,
             )
 
-        # Initialize model without loading weights
-        # Check if dataset_stats were provided in kwargs
+        # Initialize model (random weights). If load_weights is False we will return early.
         model = cls(config, **kwargs)
+
+        if not load_weights:
+            print(
+                "Skipping pretrained weight download: returning PI05Policy with random initialization. "
+                "(Set load_weights=True to download and load HuggingFace checkpoint)."
+            )
+            return model
 
         # Now manually load and remap the state dict
         try:
