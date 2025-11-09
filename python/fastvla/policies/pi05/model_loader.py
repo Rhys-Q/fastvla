@@ -4,7 +4,7 @@ from .config import PI05BaseOriginalConfig
 from .modeling_pi05 import PI0Pytorch
 
 
-def instantiate_original_pi05(from_pretrained: bool = False, model_path: str | None = None, device="cuda"):
+def instantiate_fastvla_pi05(from_pretrained: bool = False, model_path: str | None = None, device="cuda"):
     config = PI05BaseOriginalConfig()
     policy = PI0Pytorch(config)
 
