@@ -3,6 +3,7 @@ from fastvla.policies.pi05.modeling_pi05 import PI05Policy
 from fastvla.policies.pi05 import PI05Config, PI05Policy  # noqa: E402
 from fastvla.policies.pi05.processor_pi05 import make_pi05_pre_post_processors  # noqa: E402
 from fastvla.processor import PolicyAction, PolicyProcessorPipeline  # noqa: E402
+from fastvla.policies import pi05_pure
 import torch
 import pytest
 
@@ -118,6 +119,14 @@ def test_pi05_policy_run():
         lerobot_actions_unit = lerobot_actions_own[:, 0, :]
     print("PI05 policy forward pass successful. Action shape:", lerobot_actions_unit.shape)
     print("Sample actions:", lerobot_actions_unit)
+
+
+def test_pi05_pure_load():
+    policy = pi05_pure.PI05Policy.from_pretrained("lerobot/pi05_base", strict=True, load_weights=False)
+    # Sanity check: parameters should exist but not require any specific loaded key
+    n_params = sum(p.numel() for p in policy.parameters())
+    assert n_params > 0
+    print("Successfully initialized PI05 policy model without pretrained weights (random init).")
 
 
 if __name__ == "__main__":

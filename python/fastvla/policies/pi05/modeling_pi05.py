@@ -24,7 +24,7 @@ from typing import TYPE_CHECKING, Literal
 import torch
 import torch.nn.functional as F  # noqa: N812
 from torch import Tensor, nn
-
+import dataclasses
 from fastvla.utils.import_utils import _transformers_available
 
 # Conditional import for type checking and lazy loading
