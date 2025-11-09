@@ -3,10 +3,10 @@ from typing import Literal
 import pytest
 import torch
 from torch import nn
-from fastvla.policies.pi05_pure.gemma import GemmaForCausalLM
-from fastvla.policies.pi05_pure.paligemma import PaliGemmaForConditionalGeneration
+from fastvla.policies.pi05.gemma import GemmaForCausalLM
+from fastvla.policies.pi05.paligemma import PaliGemmaForConditionalGeneration
 from transformers.models.auto import CONFIG_MAPPING
-from fastvla.policies.pi05_pure.gemma import modeling_gemma
+from fastvla.policies.pi05.gemma import modeling_gemma
 
 
 class PaliGemmaWithExpertModel(nn.Module):
