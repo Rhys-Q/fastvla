@@ -37,6 +37,8 @@ from transformers.utils import (
 )
 from transformers.models.auto import AutoModel
 from .configuration_paligemma import PaliGemmaConfig
+from fastvla.policies.pi05.gemma.modeling_gemma import GemmaModel
+from fastvla.policies.pi05.siglip import SiglipVisionModel
 
 
 logger = logging.get_logger(__name__)
@@ -144,11 +146,11 @@ class PaliGemmaModel(PaliGemmaPreTrainedModel):
 
     def __init__(self, config: PaliGemmaConfig):
         super().__init__(config)
-        self.vision_tower = AutoModel.from_config(config=config.vision_config)
+        self.vision_tower = SiglipVisionModel(config.vision_config)
         self.multi_modal_projector = PaliGemmaMultiModalProjector(config)
         self.vocab_size = config.text_config.vocab_size
 
-        language_model = AutoModel.from_config(config=config.text_config)
+        language_model = GemmaModel(config.text_config)
         self.language_model = language_model
 
         self.pad_token_id = self.config.pad_token_id if self.config.pad_token_id is not None else -1
