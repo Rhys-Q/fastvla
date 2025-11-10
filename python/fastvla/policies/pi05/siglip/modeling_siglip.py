@@ -431,6 +431,10 @@ class SiglipMLP(nn.Module):
         hidden_states = self.fc2(hidden_states)
         return hidden_states
 
+    def forward_cutedsl(self, hidden_states: torch.Tensor) -> torch.Tensor:
+        # TODO(rhys-q): Implement Cutedsl version
+        raise NotImplementedError("This is a cutedsl only method.")
+
 
 class SiglipEncoderLayer(GradientCheckpointingLayer):
     def __init__(self, config: Union[SiglipVisionConfig, SiglipTextConfig]):
@@ -478,6 +482,15 @@ class SiglipEncoderLayer(GradientCheckpointingLayer):
             outputs += (attn_weights,)
 
         return outputs
+
+    def forward_cutedsl(
+        self,
+        hidden_states: torch.Tensor,
+        attention_mask: torch.Tensor,
+        output_attentions: Optional[bool] = False,
+    ) -> tuple[torch.FloatTensor]:
+        # TODO(rhys-q): Implement Cutedsl version
+        raise NotImplementedError("This is a cutedsl only method.")
 
 
 @auto_docstring
@@ -794,6 +807,16 @@ class SiglipVisionTransformer(nn.Module):
             hidden_states=encoder_outputs.hidden_states,
             attentions=encoder_outputs.attentions,
         )
+
+    def forward_cutedsl(
+        self,
+        pixel_values,
+        output_attentions: Optional[bool] = None,
+        output_hidden_states: Optional[bool] = None,
+        interpolate_pos_encoding: Optional[bool] = False,
+    ) -> BaseModelOutputWithPooling:
+        # TODO(rhys-q): Implement Cutedsl version
+        raise NotImplementedError("This is a cutedsl only method.")
 
 
 class SiglipMultiheadAttentionPoolingHead(nn.Module):
