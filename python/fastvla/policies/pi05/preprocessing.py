@@ -5,6 +5,7 @@ import torch
 from copy import deepcopy
 import numpy as np
 import torch.nn.functional as F  # noqa: N812
+from fastvla.policies.pi05.config import DUMMY_STATE_DIM, DUMMY_ACTION_HORIZON
 
 logger = logging.getLogger("openpi")
 
@@ -16,10 +17,6 @@ IMAGE_KEYS = (
 )
 
 IMAGE_RESOLUTION = (224, 224)
-DUMMY_MAX_TOKEN_LEN = 200
-DUMMY_ACTION_DIM = 32
-DUMMY_STATE_DIM = 32
-DUMMY_ACTION_HORIZON = 50
 DUMMY_MAX_TOKEN_LEN = 200
 
 

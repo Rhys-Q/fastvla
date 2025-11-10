@@ -32,13 +32,10 @@ from openpi.models_pytorch.pi0_pytorch import PI0Pytorch  # noqa: E402
 from transformers import AutoTokenizer  # noqa: E402
 from fastvla.policies.pi05.model_loader import instantiate_fastvla_pi05
 from fastvla.policies.pi05.preprocessing import create_original_observation_with_openpi_preprocessing
-
+from fastvla.policies.pi05.config import DUMMY_ACTION_DIM, DUMMY_STATE_DIM, DUMMY_ACTION_HORIZON, PI05BaseOriginalConfig
 
 # TODO: ADDING DEFAULT IMAGES_FEATURES TO CONFIG
-DUMMY_ACTION_DIM = 32
-DUMMY_STATE_DIM = 32
-DUMMY_ACTION_HORIZON = 50
-DUMMY_MAX_TOKEN_LEN = 200
+
 DEVICE = "cpu"  # Use CPU to avoid memory issues for testing
 
 DUMMY_DATASET_STATS = {
@@ -75,16 +72,6 @@ DUMMY_DATASET_STATS = {
         },
     },
 }
-
-
-class PI05BaseOriginalConfig:
-    action_dim: int = DUMMY_ACTION_DIM
-    action_horizon: int = DUMMY_ACTION_HORIZON
-    paligemma_variant: str = "gemma_2b"
-    action_expert_variant: str = "gemma_300m"
-    precision: str = "float32"
-    pi05: bool = True
-    dtype: str = "float32"
 
 
 def instantiate_original_pi05(from_pretrained: bool = False, model_path: str | None = None, device="cuda"):
@@ -312,7 +299,8 @@ def test_pi05_original_vs_fastvla():
     print(f"Actions close (atol=1e-4): {torch.allclose(fastvla_actions_own, openpi_actions, atol=1e-4)}")
     print(f"Actions close (atol=1e-2): {torch.allclose(fastvla_actions_own, openpi_actions, atol=1e-2)}")
     print(f"Max absolute difference: {torch.abs(fastvla_actions_own - openpi_actions).max().item():.6f}")
-    tolerance = 1e-4 if device == "cpu" else 1e-3
+    if fastvla_pi05.config.dtype == "bfloat16":
+        tolerance = 1e-2
+    elif fastvla_pi05.config.dtype == "float32":
+        tolerance = 1e-4 if device == "cpu" else 1e-3
     assert torch.allclose(fastvla_actions_own, openpi_actions, atol=tolerance)
-    assert torch.allclose(fastvla_actions_own, openpi_actions, atol=1e-2)
-    assert torch.abs(fastvla_actions_own - openpi_actions).max().item() < tolerance
